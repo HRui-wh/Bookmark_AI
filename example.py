@@ -60,7 +60,7 @@ async def example_usage():
         
         # 3. 导出HTML
         logger.info("📤 导出HTML文件...")
-        exporter = HTMLExporter(result, "example_output.html", items=classifier.get_items())
+        exporter = HTMLExporter(result, "example_output.html")
         exporter.export()
         
         logger.info("🎉 示例完成！输出文件: example_output.html")

@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2da24630-9bd5-4fbf-84b5-57e3570febcb" name="Changes" comment="Initial commit" />
+    <list default="true" id="2da24630-9bd5-4fbf-84b5-57e3570febcb" name="Changes" comment="Initial commit">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.py" beforeDir="false" afterPath="$PROJECT_DIR$/example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exporters/html_exporter.py" beforeDir="false" afterPath="$PROJECT_DIR$/exporters/html_exporter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +72,7 @@
       <recent name="C:\Users\QSYJC\PycharmProjects\Collect_Organize" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui">
+  <component name="RunManager" selected="Python.main">
     <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Collect_Organize" />
       <option name="ENV_FILES" value="" />
@@ -112,8 +119,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.gui" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.gui" />
       </list>
     </recent_temporary>
   </component>
