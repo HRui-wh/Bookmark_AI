@@ -33,6 +33,8 @@ class AIClassifier:
         """
         self.bookmarks = bookmarks
         self.result: Dict[str, Dict[str, str]] = {}
+        # 结构化的分类结果列表（用于更丰富的导出场景，如主页/子页面分组）
+        self.classified_items: List[ClassifiedBookmark] = []
         self.max_concurrency = max_concurrency or config.network.max_concurrency
         self.semaphore = asyncio.Semaphore(self.max_concurrency)
         
@@ -99,6 +101,8 @@ class AIClassifier:
                 if classified.category not in self.result:
                     self.result[classified.category] = {}
                 self.result[classified.category][key] = classified.url
+                # 保存结构化条目
+                self.classified_items.append(classified)
                 
                 logger.debug(f"成功分类: {bookmark.title} -> {classified.category}")
                 return classified
@@ -121,39 +125,25 @@ class AIClassifier:
         categories_str = "、".join(config.categories)
         
         prompt = f"""
-You are a professional bookmark classification assistant. Please carefully analyze the website information and provide accurate classification and description.
+你是一个高效的中文网站分类助手。根据给定信息输出精炼结果。
 
-Website Information:
-- Title: {bookmark.title}
-- Description: {bookmark.description}
-- URL: {bookmark.url}
+网站信息：
+- 标题：{bookmark.title}
+- 描述：{bookmark.description}
+- 链接：{bookmark.url}
 
-Classification Guidelines (Please use Chinese category names):
-1. **编程**: Code hosting, development tools, programming tutorials, technical documentation, IDEs, frameworks, etc.
-2. **AI**: AI models, machine learning, deep learning, AI tools, intelligent assistants, AI platforms, etc.
-3. **VPN**: Network proxies, bypass tools, VPN services, network accelerators, etc.
-4. **在线工具**: Utility tools, converters, calculators, online services, etc.
-5. **娱乐**: Games, videos, music, anime, leisure entertainment, etc.
-6. **电子商务**: Shopping platforms, online stores, e-commerce services, etc.
-7. **供应厂商**: Manufacturers, suppliers, equipment vendors, raw material suppliers, etc.
-8. **社交**: Social platforms, forums, communities, instant messaging, etc.
-9. **资讯**: News, information, blogs, media, knowledge sharing, etc.
-10. **专业设计**: Design tools, creative platforms, professional software, design resources, etc.
+分类范围（必须从以下中文类别中二选一）：
+编程、AI、VPN、在线工具、娱乐、电子商务、供应厂商、社交、资讯、专业设计
 
-Requirements:
-1. Website Name: Extract the real name of the website, avoid using "无标题" (No Title)
-2. Website Description: Concise and clear, no more than 50 characters, accurately describe the main function
-3. Website Category: Choose the most appropriate category from the Chinese category names above, avoid overusing "在线工具"
-4. Website URL: Keep the original URL unchanged
+要求：
+1) 网站名称：提取真实名称，避免“无标题”；
+2) 网站描述：不超过50字，突出主要功能；
+3) 网站分类：严格从上述中文类别中选择；
+4) 网站链接：保持原样；
 
-Special Notes:
-- If the title contains garbled characters or is unrecognizable, infer the website name based on URL and description
-- Prioritize the main function and purpose of the website, not secondary functions
-- For professional technical websites, accurately identify their professional field
-- For commercial websites, distinguish between suppliers and e-commerce platforms
-- IMPORTANT: Use Chinese category names (编程, AI, VPN, 在线工具, 娱乐, 电子商务, 供应厂商, 社交, 资讯, 专业设计)
+注意：识别知名站点；标题乱码时结合URL推断；尽量避免滥用“在线工具”。
 
-Please output in the following format exactly:
+只按以下四行原样输出：
 网站名称：xxx
 网站描述：xxx
 网站分类：xxx
@@ -244,6 +234,8 @@ Please output in the following format exactly:
                 if classified.category not in self.result:
                     self.result[classified.category] = {}
                 self.result[classified.category][key] = classified.url
+                # 保存结构化条目
+                self.classified_items.append(classified)
             
             logger.info(f"备用分类完成，成功分类 {len(backup_results)}/{len(failed_bookmarks)} 个书签")
         
@@ -258,6 +250,15 @@ Please output in the following format exactly:
             分类结果字典
         """
         return self.result
+
+    def get_items(self) -> List[ClassifiedBookmark]:
+        """
+        获取结构化分类条目列表
+
+        Returns:
+            分类后的结构化条目列表
+        """
+        return list(self.classified_items)
     
     def get_statistics(self) -> Dict[str, int]:
         """

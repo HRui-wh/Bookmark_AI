@@ -54,6 +54,7 @@ async def main():
         
         # 获取分类结果
         result = classifier.get_result()
+        items = classifier.get_items()
         stats = classifier.get_statistics()
         
         logger.info("📊 分类统计:")
@@ -62,7 +63,7 @@ async def main():
         
         # 第三步：导出HTML
         logger.info("📤 第三步：导出HTML文件")
-        exporter = HTMLExporter(result)
+        exporter = HTMLExporter(result, items=items)
         
         # 验证数据
         if not exporter.validate_data():

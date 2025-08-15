@@ -14,9 +14,9 @@ load_dotenv()
 class AIConfig(BaseModel):
     """AI模型配置"""
     model: str = Field(default="deepseek-chat", description="AI模型名称")
-    temperature: float = Field(default=0.3, ge=0.0, le=2.0, description="温度参数")
-    max_tokens: int = Field(default=1024, gt=0, description="最大token数")
-    top_p: float = Field(default=0.9, ge=0.0, le=1.0, description="Top-p参数")
+    temperature: float = Field(default=0.2, ge=0.0, le=2.0, description="温度参数")
+    max_tokens: int = Field(default=256, gt=0, description="最大token数")
+    top_p: float = Field(default=0.85, ge=0.0, le=1.0, description="Top-p参数")
     presence_penalty: float = Field(default=0.0, ge=-2.0, le=2.0, description="存在惩罚")
     frequency_penalty: float = Field(default=0.0, ge=-2.0, le=2.0, description="频率惩罚")
 

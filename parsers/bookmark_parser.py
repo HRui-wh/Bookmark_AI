@@ -56,6 +56,7 @@ class BookmarkParser:
         
         # 解析HTML
         soup = BeautifulSoup(content, 'html.parser')
+        # 获取链接时保留原始文本作为备选标题
         links = soup.find_all('a')
         
         # 提取URL列表

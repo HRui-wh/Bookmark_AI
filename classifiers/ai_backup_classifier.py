@@ -183,40 +183,24 @@ URL分析信息：
 """
         
         prompt = f"""
-You are a professional website classification assistant. Since we cannot obtain detailed website content, please classify the website based on URL information and your knowledge base.
+你是一个快速分类助手。在无法读取网页内容时，请依据 URL 结构和常识完成分类。
 
 {url_analysis}
 
-Basic Website Information:
-- Title: {bookmark.title}
-- Description: {bookmark.description}
+基础信息：
+- 标题：{bookmark.title}
+- 描述：{bookmark.description}
 
-Classification Guidelines (Please use Chinese category names):
-1. **编程**: github, stackoverflow, docs, api, dev, code, etc.
-2. **AI**: ai, ml, deep, neural, chat, gpt, huggingface, etc.
-3. **VPN**: vpn, proxy, clash, v2ray, shadowsocks, etc.
-4. **在线工具**: tool, convert, calc, online, app, etc.
-5. **娱乐**: game, video, music, anime, bilibili, youtube, etc.
-6. **电子商务**: shop, store, mall, buy, amazon, taobao, etc.
-7. **供应厂商**: manufacturer, supplier, corp, tech, industry, etc.
-8. **社交**: social, chat, forum, community, discord, etc.
-9. **资讯**: news, media, press, blog, cnn, bbc, etc.
-10. **专业设计**: design, art, creative, portfolio, adobe, etc.
+分类范围（只能从以下中文类别中选择）：
+编程、AI、VPN、在线工具、娱乐、电子商务、供应厂商、社交、资讯、专业设计
 
-Requirements:
-1. Website Name: Infer website name from domain and path, avoid using "无标题" (No Title)
-2. Website Description: Infer website function from URL information, no more than 50 characters
-3. Website Category: Choose the most appropriate category from the Chinese category names above
-4. Website URL: Keep the original URL unchanged
+输出要求：
+1) 网站名称：由域名/路径推断，避免“无标题”；
+2) 网站描述：≤50字，依据URL关键词归纳主要用途；
+3) 网站分类：严格在上述中文类别中；
+4) 网站链接：保持原样；
 
-URL Analysis Techniques:
-- Analyze domain: e.g., github.com → 编程, amazon.com → 电子商务
-- Analyze path: e.g., /shop/ → 电子商务, /docs/ → 编程
-- Analyze keywords: e.g., contains "ai", "ml" → AI, contains "vpn" → VPN
-- Consider well-known websites: e.g., google, youtube, github, etc.
-- IMPORTANT: Use Chinese category names (编程, AI, VPN, 在线工具, 娱乐, 电子商务, 供应厂商, 社交, 资讯, 专业设计)
-
-Please output in the following format exactly:
+只按以下四行原样输出：
 网站名称：xxx
 网站描述：xxx
 网站分类：xxx

@@ -259,7 +259,7 @@ class MetaFetcher:
         # 方法4: 从网站名称相关标签提取
         if title == "无标题":
             # 尝试从各种可能的标题标签提取
-            for tag in ["h1", "h2", "h3", ".site-title", ".brand", ".logo"]:
+            for tag in ["h1", "h2", "h3", ".site-title", ".brand", ".logo", "meta[name='application-name']"]:
                 element = soup.select_one(tag)
                 if element and element.get_text().strip():
                     title = element.get_text().strip()
@@ -301,11 +301,15 @@ class MetaFetcher:
         
         # 方法4: 从其他可能的描述标签提取
         if description == "无描述":
-            for selector in [".description", ".summary", ".intro", ".content"]:
+            for selector in [".description", ".summary", ".intro", ".content", "meta[name='twitter:description']"]:
                 element = soup.select_one(selector)
-                if element and element.get_text().strip():
-                    text = element.get_text().strip()
-                    description = text[:100] + "..." if len(text) > 100 else text
+                if element:
+                    if element.name == 'meta' and element.get("content"):
+                        text = element.get("content").strip()
+                    else:
+                        text = element.get_text().strip()
+                    if text:
+                        description = text[:100] + "..." if len(text) > 100 else text
                     break
         
         return title, description
